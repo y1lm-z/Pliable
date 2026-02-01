@@ -15,7 +15,7 @@ Designed for quick geometry edits without parametric constraints.
 **Currently building:**
 - [x] pythonocc + PyQt6 setup
 - [x] Display primitive cube and navigation
-- [ ] Face selection
+- [x] Face selection with cyan highlighting
 - [ ] Push/pull interaction
 - [ ] STEP import/export
 
