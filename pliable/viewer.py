@@ -193,7 +193,47 @@ class PliableViewer:
 
         print("Select a face to continue editing.")
 
-    def run(self):
-        """Start the viewer event loop"""
-        self.canvas.show()
-        sys.exit(self.app.exec())
+    def _set_parent_window(self, window):
+        """Called by window after construction"""
+        self.parent_window = window
+
+    def load_shape(self, shape):
+        """
+        Load a new shape into the viewer
+
+        Args:
+            shape: TopoDS_Shape to display
+        """
+        try:
+            print("Loading shape into viewer...")
+
+            # Replace current shape
+            self.cube = shape
+
+            # Clear all display
+            if self.ais_shape is not None:
+                self.display.Context.Remove(self.ais_shape, True)
+
+            self.display.Context.RemoveAll(True)
+
+            # Clear selection state
+            self.selected_face = None
+            self.original_shape = None
+            self.highlighted_face_ais = None
+            self.preview_shape_ais = None
+
+            # Display new shape
+            self.ais_shape = self.display.DisplayShape(shape, update=True)[0]
+
+            # Re-enable face selection
+            self.display.SetSelectionModeFace()
+
+            self.display.FitAll()
+            self.display.Repaint()
+
+            print("✓ Shape loaded and ready for editing!")
+
+        except Exception as e:
+            print(f"ERROR loading shape: {e}")
+            import traceback
+            traceback.print_exc()
