@@ -16,8 +16,10 @@ Designed for quick geometry edits without parametric constraints.
 - [x] pythonocc + PyQt6 setup
 - [x] Display primitive cube and navigation
 - [x] Face selection with cyan highlighting
-- [ ] Push/pull interaction
+- [x] Push/pull interaction
+- [ ] Dimension overlay for push/pull
 - [ ] STEP import/export
+- [ ] Fillet edge interaction
 
 ## Tech Stack
 
