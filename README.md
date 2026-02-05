@@ -17,8 +17,8 @@ Designed for quick geometry edits without parametric constraints.
 - [x] Display primitive cube and navigation
 - [x] Face selection with cyan highlighting
 - [x] Push/pull interaction
-- [ ] Main window
-- [ ] STEP import/export
+- [x] Main window
+- [x] STEP import/export
 - [ ] Fillet edge interaction
 - [ ] Dimension overlay for interactions
 
