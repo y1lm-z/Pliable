@@ -19,6 +19,7 @@ Designed for quick geometry edits without parametric constraints.
 - [x] Push/pull interaction
 - [x] Main window
 - [x] STEP import/export
+- [x] Add edge & vertex selection
 - [ ] Fillet edge interaction
 - [ ] Dimension overlay for interactions
 
