@@ -20,6 +20,7 @@ Designed for quick geometry edits without parametric constraints.
 - [x] Main window
 - [x] STEP import/export
 - [x] Add edge & vertex selection
+- [x] Add message panel for user feedback
 - [ ] Fillet edge interaction
 - [ ] Dimension overlay for interactions
 
