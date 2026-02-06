@@ -124,7 +124,15 @@ class PliableViewer:
             else:
                 shape_name = "Unknown"
 
-            print(f"{shape_name} selected!")
+            # print(f"{shape_name} selected!")
+
+            # Post to status bar if parent window exists
+            if hasattr(self, 'parent_window') and self.parent_window is not None:
+                total_selected = len(self.selected_shapes)
+                if total_selected == 1:
+                    self.parent_window.show_status_message(f"{shape_name} selected")
+                else:
+                    self.parent_window.show_status_message(f"{shape_name} selected ({total_selected} items total)")
 
             # Create highlight
             ais_obj = self.display.DisplayShape(
@@ -194,12 +202,17 @@ class PliableViewer:
                 break
 
         if selected_face is None:
-            print("ERROR: No face selected for push/pull")
+            msg = "ERROR: No face selected for push/pull"
+            # print(msg)
+            if hasattr(self, 'parent_window') and self.parent_window is not None:
+                self.parent_window.show_status_message(msg)
             return
 
         from pliable.geometry import offset_face
 
-        print("Computing final geometry...")
+        # print("Computing final geometry...")
+        if hasattr(self, 'parent_window') and self.parent_window is not None:
+            self.parent_window.show_status_message("Computing push/pull geometry...")
 
         # CRITICAL: Clear ALL display objects first
         if self.preview_shape_ais is not None:
@@ -229,12 +242,21 @@ class PliableViewer:
 
             if new_shape is not None:
                 self.cube = new_shape
-                print(f"✓ Shape updated! Push/pull of {offset:.2f}mm applied.")
+                msg = f"✓ Push/pull complete: {offset:.2f}mm"
+                # print(msg)
+                if hasattr(self, 'parent_window') and self.parent_window is not None:
+                    self.parent_window.show_status_message(msg)
             else:
-                print("ERROR: offset_face returned None")
+                msg = "ERROR: offset_face returned None"
+                # print(msg)
+                if hasattr(self, 'parent_window') and self.parent_window is not None:
+                    self.parent_window.show_status_message(msg)
                 return
         except Exception as e:
-            print(f"ERROR during push/pull: {e}")
+            msg = f"ERROR during push/pull: {e}"
+            # print(msg)
+            if hasattr(self, 'parent_window') and self.parent_window is not None:
+                self.parent_window.show_status_message(msg)
             import traceback
             traceback.print_exc()
             return
@@ -257,7 +279,9 @@ class PliableViewer:
         self.display.FitAll()
         self.display.Repaint()
 
-        print("Select a face, edge, or vertex to continue editing.")
+        # print("Select a face, edge, or vertex to continue editing.")
+        if hasattr(self, 'parent_window') and self.parent_window is not None:
+            self.parent_window.show_status_message("Ready - select a face, edge, or vertex")
 
     def _set_parent_window(self, window):
         """Called by window after construction"""

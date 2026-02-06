@@ -2,8 +2,9 @@
 Main application window for Pliable
 """
 
-from PyQt6.QtWidgets import QMainWindow, QFileDialog, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTextEdit, QDockWidget
 from PyQt6.QtGui import QAction, QKeySequence
+from PyQt6.QtCore import Qt
 from pliable.viewer import PliableViewer
 from pliable.files import import_step, export_step
 
@@ -25,11 +26,17 @@ class PliableWindow(QMainWindow):
         # Initialize viewer's overlay after window is shown
         self.viewer._set_parent_window(self)
 
+        # Setup status bar with message history
+        self._create_status_bar()
+
         # Setup menus
         self._create_menus()
 
         # Setup keyboard shortcuts
         self._create_shortcuts()
+
+        # Initial status message
+        self.show_status_message("Ready")
 
         print("\nPliable v0.1.0")
         print("File menu: File → Open, Save As")
@@ -38,6 +45,55 @@ class PliableWindow(QMainWindow):
         print("  - Click: Select face/edge/vertex (cyan)")
         print("  - Ctrl+Click: Add to selection")
         print("  - Shift + Drag on selected face: Push/pull")
+
+    def _create_status_bar(self):
+        """Create status bar with scrollable message history"""
+        # Create a dock widget for message history
+        self.message_dock = QDockWidget("Messages", self)
+        self.message_dock.setAllowedAreas(Qt.DockWidgetArea.BottomDockWidgetArea)
+
+        # Create text widget for messages
+        self.message_history = QTextEdit()
+        self.message_history.setReadOnly(True)
+        self.message_history.setMaximumHeight(100)  # Limit height
+
+        self.message_dock.setWidget(self.message_history)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self.message_dock)
+
+        # Hide by default, can be shown via View menu later if needed
+        self.message_dock.hide()
+
+        # Message counter
+        self.message_count = 0
+        self.max_messages = 100
+
+        # Also create traditional status bar for current message
+        self.status_bar = self.statusBar()
+
+    def show_status_message(self, message):
+        """
+        Display a message in the status bar and add to history
+
+        Args:
+            message: String message to display
+        """
+        # Show in status bar
+        self.status_bar.showMessage(message)
+
+        # Add to message history
+        self.message_count += 1
+        self.message_history.append(f"[{self.message_count}] {message}")
+
+        # Limit to max messages
+        if self.message_count > self.max_messages:
+            # Clear old messages by getting all text and keeping last N
+            text = self.message_history.toPlainText()
+            lines = text.split('\n')
+            if len(lines) > self.max_messages:
+                # Keep last max_messages lines
+                self.message_history.clear()
+                self.message_history.setText('\n'.join(lines[-self.max_messages:]))
+                self.message_count = self.max_messages
 
     def _create_menus(self):
         """Create menu bar"""
@@ -69,10 +125,30 @@ class PliableWindow(QMainWindow):
         exit_action.triggered.connect(self.close)
         file_menu.addAction(exit_action)
 
+        # View menu
+        view_menu = menubar.addMenu("&View")
+
+        # Toggle message history action
+        self.toggle_messages_action = QAction("Show &Messages", self)
+        self.toggle_messages_action.setCheckable(True)
+        self.toggle_messages_action.setChecked(False)  # Hidden by default
+        self.toggle_messages_action.setStatusTip("Show/hide message history panel")
+        self.toggle_messages_action.triggered.connect(self.toggle_message_history)
+        view_menu.addAction(self.toggle_messages_action)
+
     def _create_shortcuts(self):
         """Create additional keyboard shortcuts"""
         # Shortcuts are already defined in menu actions
         pass
+
+    def toggle_message_history(self):
+        """Toggle visibility of message history panel"""
+        if self.message_dock.isVisible():
+            self.message_dock.hide()
+            self.toggle_messages_action.setText("Show &Messages")
+        else:
+            self.message_dock.show()
+            self.toggle_messages_action.setText("Hide &Messages")
 
     def open_file(self):
         """Open a STEP file"""

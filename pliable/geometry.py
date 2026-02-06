@@ -50,7 +50,7 @@ def get_face_center_and_normal(face, solid=None):
         # Check face orientation and flip if needed
         if face.Orientation() == TopAbs_REVERSED:
             normal.Reverse()
-            print("DEBUG: Face is REVERSED, flipping normal")
+            # print("DEBUG: Face is REVERSED, flipping normal")
 
         return center, normal
     else:
@@ -175,11 +175,11 @@ def offset_face(solid, face, distance):
 
     # Validation
     if solid is None or face is None:
-        print("ERROR: Invalid input to offset_face")
+        # print("ERROR: Invalid input to offset_face")
         return solid
 
     if abs(distance) < 0.01:  # Less than 0.01mm, ignore
-        print("Offset too small, ignoring")
+        # print("Offset too small, ignoring")
         return solid
 
     try:
@@ -198,7 +198,7 @@ def offset_face(solid, face, distance):
         prism_builder.Build()
 
         if not prism_builder.IsDone():
-            print("ERROR: Failed to create prism")
+            # print("ERROR: Failed to create prism")
             return solid
 
         prism = prism_builder.Shape()
@@ -212,31 +212,31 @@ def offset_face(solid, face, distance):
         bool_op.Build()
 
         if not bool_op.IsDone():
-            print("ERROR: Boolean operation failed")
+            # print("ERROR: Boolean operation failed")
             return solid
 
         result = bool_op.Shape()
 
         if result.IsNull():
-            print("ERROR: Boolean returned null shape")
+            # print("ERROR: Boolean returned null shape")
             return solid
 
         # Refine the result
-        print("Refining geometry...")
+        # print("Refining geometry...")
         refiner = ShapeUpgrade_UnifySameDomain(result, True, True, True)
         refiner.Build()
 
         refined_result = refiner.Shape()
 
         if refined_result.IsNull():
-            print("WARNING: Refinement failed, using unrefined result")
+            # print("WARNING: Refinement failed, using unrefined result")
             return result
 
-        print("✓ Refinement complete")
+        # print("✓ Refinement complete")
         return refined_result
 
     except Exception as e:
-        print(f"ERROR in offset_face: {e}")
+        # print(f"ERROR in offset_face: {e}")
         import traceback
         traceback.print_exc()
         return solid

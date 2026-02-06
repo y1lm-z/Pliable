@@ -29,7 +29,7 @@ class InteractionHandler:
 
     def _hook_mouse_events(self):
         """Override Qt mouse event handlers"""
-        print("Hooking Qt mouse events...")
+        # print("Hooking Qt mouse events...")
 
         # Store original handlers
         self.original_mouse_press = self.canvas.mousePressEvent
@@ -41,7 +41,7 @@ class InteractionHandler:
         self.canvas.mouseMoveEvent = self.on_mouse_move
         self.canvas.mouseReleaseEvent = self.on_mouse_release
 
-        print("✓ Qt mouse events hooked successfully!")
+        # print("✓ Qt mouse events hooked successfully!")
 
     def on_mouse_press(self, event):
         """Handle mouse button press"""
@@ -57,9 +57,14 @@ class InteractionHandler:
             if has_face:
                 self.drag_start_x = event.position().x()
                 self.drag_start_y = event.position().y()
-                print(f"Shift+Left drag started - push/pull mode")
+                # print(f"Shift+Left drag started - push/pull mode")
+                if hasattr(self.viewer, 'parent_window') and self.viewer.parent_window is not None:
+                    self.viewer.parent_window.show_status_message("Push/pull drag started")
             else:
-                print("No face selected - select a face first")  # ← Add feedback
+                msg = "No face selected - select a face first"
+                # print(msg)
+                if hasattr(self.viewer, 'parent_window') and self.viewer.parent_window is not None:
+                    self.viewer.parent_window.show_status_message(msg)
 
     def on_mouse_move(self, event):
         """Handle mouse movement"""
@@ -87,7 +92,7 @@ class InteractionHandler:
                 self.viewer.display.Context.ClearSelected(True)  # ← ADD THIS
                 self.viewer.display.Context.UpdateCurrentViewer()
 
-                print(f"Push/pull drag started! Delta: {delta_y:.1f}px")
+                # print(f"Push/pull drag started! Delta: {delta_y:.1f}px")
 
         if self.is_dragging:
             # Get the selected face for push/pull
@@ -115,7 +120,7 @@ class InteractionHandler:
                 delta_y
             )
 
-            print(f"Drag: ΔX={delta_x:.1f}px, ΔY={delta_y:.1f}px → Offset={offset:.2f}mm")
+            # print(f"Drag: ΔX={delta_x:.1f}px, ΔY={delta_y:.1f}px → Offset={offset:.2f}mm")
 
             # Only update preview if offset changed significantly (>0.5mm)
             if (self.last_preview_offset is None or
@@ -154,7 +159,7 @@ class InteractionHandler:
                         delta_y
                     )
 
-                    print(f"✓ Push/pull finished: {offset:.2f}mm")
+                    # print(f"✓ Push/pull finished: {offset:.2f}mm")
 
                     # Finalize the operation
                     self.viewer.finalize_push_pull(offset)
