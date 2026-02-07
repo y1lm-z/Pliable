@@ -4,6 +4,9 @@
 
 ⚠️ **Status: Early proof-of-concept - not usable yet**
 
+![PliableDemo01](https://github.com/user-attachments/assets/d6a42c9b-c637-44f6-a5e1-b62476e6638c)
+
+
 ## Goal
 
 Build a direct solid modeling tool using OpenCASCADE. Push/pull faces to modify geometry, export to STEP.
@@ -16,12 +19,12 @@ Designed for quick geometry edits without parametric constraints.
 - [x] pythonocc + PyQt6 setup
 - [x] Display primitive cube and navigation
 - [x] Face selection with cyan highlighting
-- [x] Push/pull interaction
+- [x] Push/pull interaction - shift+left-drag to additive or subtractive extrude a face
 - [x] Main window
 - [x] STEP import/export
 - [x] Edge & vertex selection
 - [x] Message panel for user feedback
-- [x] Fillet/Chamfer edge interaction
+- [x] Fillet/Chamfer edge interaction - shift+left-drag away from model for fillet, toward for chamfer
 - [x] Undo with history of shapes
 - [x] Popup for manual push-pull dimension entry
 
