@@ -12,15 +12,15 @@ Designed for quick geometry edits without parametric constraints.
 
 ## Development Status
 
-**Currently building:**
+**Currently implemented:**
 - [x] pythonocc + PyQt6 setup
 - [x] Display primitive cube and navigation
 - [x] Face selection with cyan highlighting
 - [x] Push/pull interaction
 - [x] Main window
 - [x] STEP import/export
-- [x] Add edge & vertex selection
-- [x] Add message panel for user feedback
+- [x] Edge & vertex selection
+- [x] Message panel for user feedback
 - [x] Fillet/Chamfer edge interaction
 - [x] Undo with history of shapes
 - [x] Popup for manual push-pull dimension entry
@@ -31,12 +31,31 @@ Designed for quick geometry edits without parametric constraints.
 - [pythonocc-core](https://github.com/tpaviot/pythonocc-core) (OpenCASCADE BREP kernel)
 - PyQt6
 
-## Installation (Not Ready Yet)
-```bash
-conda env create -f environment.yml
-conda activate pliable
-python pliable.py
-```
+## Installation (Development)
+
+Pliable is in an early proof‑of‑concept stage. You can run it from source using either Conda or standard Python.
+
+### **Option A — Conda (recommended on Windows/macOS)**
+
+This provides the most reliable installation of `pythonocc-core`.
+
+    conda env create -f environment.yml
+    conda activate pliable
+    python pliable.py
+
+### **Option B — Standard Python (venv/pyenv/Poetry)**
+
+If you prefer not to use Conda:
+
+    python -m venv venv
+    venv\Scripts\activate        # Windows
+    source venv/bin/activate     # macOS/Linux
+
+    pip install -r requirements.txt
+    python pliable.py
+
+> Note: On some platforms, `pythonocc-core` may not be available via pip.  
+> If installation fails, use the Conda method above.
 
 ## License
 
