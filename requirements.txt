@@ -1,3 +1,2 @@
 pythonocc-core
 pyqt6
-pyqt6-opengl
