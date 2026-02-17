@@ -2,7 +2,7 @@
 Qt mouse and keyboard interaction handling for Pliable
 """
 
-from pliable.geometry import calculate_push_pull_offset, calculate_fillet_chamfer_radius
+from src.geometry import calculate_push_pull_offset, calculate_fillet_chamfer_radius
 
 class InteractionHandler:
     """Handles Qt mouse and keyboard events for 3D interaction"""

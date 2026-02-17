@@ -134,7 +134,7 @@ class Document:
         Calculate and cache the center of mass of the current shape
         Should be called after any geometry modification
         """
-        from pliable.geometry import get_center_of_mass
+        from src.geometry import get_center_of_mass
         self.cached_com = get_center_of_mass(self.shape)
         # if self.cached_com:
         #     print(f"Center of mass updated: ({self.cached_com.X():.2f}, {self.cached_com.Y():.2f}, {self.cached_com.Z():.2f})")

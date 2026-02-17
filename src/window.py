@@ -5,8 +5,8 @@ Main application window for Pliable
 from PyQt6.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTextEdit, QDockWidget
 from PyQt6.QtGui import QAction, QKeySequence
 from PyQt6.QtCore import Qt
-from pliable.viewer import PliableViewer
-from pliable.files import import_step, export_step
+from src.viewer import PliableViewer
+from src.files import import_step, export_step
 
 
 class PliableWindow(QMainWindow):

@@ -16,7 +16,7 @@ def main():
         app = QApplication(sys.argv)
 
     # Create and show main window
-    from pliable.window import PliableWindow
+    from src.window import PliableWindow
     window = PliableWindow()
     window.show()
 

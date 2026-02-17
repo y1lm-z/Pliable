@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import Qt
 import sys
 
-from pliable.document import Document
+from src.document import Document
 
 
 class PliableViewer:
@@ -64,7 +64,7 @@ class PliableViewer:
         self._hook_keyboard_events()
 
         # Setup interaction handler - NOW it can access self.canvas!
-        from pliable.interaction import InteractionHandler
+        from src.interaction import InteractionHandler
         self.interaction = InteractionHandler(self)
 
         print("Pliable v0.1.0")
@@ -205,7 +205,7 @@ class PliableViewer:
         if selected_face is None:
             return
 
-        from pliable.geometry import get_face_center_and_normal
+        from src.geometry import get_face_center_and_normal
         from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakePrism
 
         # Get face normal
@@ -324,7 +324,7 @@ class PliableViewer:
             print(f"  original_shape: {self.original_shape}")
             print(f"  original_shape == document.shape: {self.original_shape is self.document.shape}")
 
-        from pliable.geometry import offset_face
+        from src.geometry import offset_face
 
         # print("Computing final geometry...")
         if hasattr(self, 'parent_window') and self.parent_window is not None:
